@@ -67,3 +67,26 @@ Shift Accum Loop:
 _Functionally correct, highly unoptimized code_
 
 This function does not provide an efficient implementation of a FIR filter. It is largely sequential, and employs a significant amount of unnecessary control logic
+
+
+## operation chaining
+![image](https://user-images.githubusercontent.com/38436564/163362086-7f4eea53-1de6-4936-bef3-ab3b97d69574.png)
+
+we can see in the above image that increasing the clock period improvevs the performance
+
+
+## Code hoisting
+- if/else inside the for loop is inefficient. Removing the conditional statement from the for loop creates a more efficient hardware implementation
+- ```if(x==0)``` part happens only in the last iteration and it can be taken out of the loop.
+
+```cpp
+  Shift Accum Loop:
+  for (i = N − 1; i > 0; i−−) {
+    shift reg[i] = shift reg[i − 1];
+    acc += shift reg[i] ∗ c[i];
+  }
+  acc += x ∗ c[0];
+  shift reg[0] = x;
+```
+_Removing the conditional statement from the for loop creates a more efficient hardware implementation_
+
