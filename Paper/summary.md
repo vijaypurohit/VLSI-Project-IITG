@@ -49,10 +49,27 @@ Length of critical path or longest path from the task to an exit task including 
 CPOP targets scheduling all critical tasks onto a single processor which minimizes....
 
 
-
-
-
 # Task Scheduling Problem
+1. Scheduling system model contains Application, Target Computing Environment and Performance Criteria
+2. Application is represented by DAG
+3. Nodes are tasks and Edges are precedence constraints
+4. ___Data___ is a vxv matrix where dataij = amount of data to be transmitted from nodei to nodej
+5. Entry Task: A task without any parent
+6. Exit Task: A task without any child
+7. Pseudo entry and Pseudo exit tasks with zero costs
+8. Target computing Environment: Set ___Q___ of q heterogeneous processors connected in full mesh topology
+9. ___W___ is a vxq matrix where Wij gives the estimated execution time to complete task ni on processor pj
+10. Average Execution Cost
+11. ___B___ is a qxq matrix stores the data transfer rates
+12. ___L___ vector of q dimension contains communication startup costs
+13. Communication cost of edge
+14. EST and EFT
+15. For entry tasks, EST is 0
+16. EST and EFT become AST and AFT after a task gets scheduled
+17. Schedule length is the latest exit task's AFT
+
+
+
 
 # Related Work
 
