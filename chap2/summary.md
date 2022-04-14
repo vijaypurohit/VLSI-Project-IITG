@@ -47,18 +47,18 @@ void fir(data t ∗y, data t x) {
   coef t c[N] = {
   53, 0, −91, 0, 313, 500, 313, 0, −91, 0, 53
 };
-static data t shift reg[N];
+static data t shift_reg[N];
 acc t acc;
 int i;
 acc = 0;
-Shift Accum Loop:
+Shift_Accum_Loop:
   for (i = N − 1; i >= 0; i−−) {
       if (i == 0) {
         acc += x ∗ c[0];
-        shift reg[0] = x;
+        shift_reg[0] = x;
       } else {
-        shift reg[i] = shift reg[i − 1];
-        acc += shift reg[i] ∗ c[i];
+        shift_reg[i] = shift_reg[i − 1];
+        acc += shift_reg[i] ∗ c[i];
       }
     }
   ∗y = acc;
@@ -82,11 +82,49 @@ we can see in the above image that increasing the clock period improvevs the per
 ```cpp
   Shift Accum Loop:
   for (i = N − 1; i > 0; i−−) {
-    shift reg[i] = shift reg[i − 1];
-    acc += shift reg[i] ∗ c[i];
+    shift_reg[i] = shift_reg[i − 1];
+    acc += shift_reg[i] ∗ c[i];
   }
   acc += x ∗ c[0];
-  shift reg[0] = x;
+  shift_reg[0] = x;
 ```
 _Removing the conditional statement from the for loop creates a more efficient hardware implementation_
+
+## Loop fission
+- dividing loop into two different loops 1) shifting of data, 2) multiply and accumulate the operations
+**_This can be advantageous especially in cases when the resulting optimizations on the split loops are different_**
+
+Loop fission allows both for loop to be optimized independently, which could lead to a better results than optimizing single, original one.
+
+```cpp
+TDL:
+  for (i = N − 1; i > 0; i−−) {
+    shift_reg[i] = shift_reg[i − 1];
+  }
+shift_reg[0] = x;
+acc = 0;
+MAC:
+  for (i = N − 1; i >= 0; i−−) {
+    acc += shift_reg[i] ∗ c[i];
+  }
+```
+
+**TDL - tapped delay line:** common DSP term for the FIFO operation
+**MAC - multiply accumulate**
+
+
+## Loop unrolling
+
+
+```cpp
+TDL:
+  for (i = N − 1; i > 1; i = i − 2) {
+    shift_reg[i] = shift_reg[i − 1];
+    shift_reg[i − 1] = shift_reg[i − 2];
+  }
+  if (i == 1) {
+    shift_reg[1] = shift_reg[0];
+  }
+  shift_reg[0] = x;
+```
 
