@@ -50,6 +50,7 @@ CPOP targets scheduling all critical tasks onto a single processor which minimiz
 
 
 # Task Scheduling Problem
+
 1. Scheduling system model contains Application, Target Computing Environment and Performance Criteria
 2. Application is represented by DAG
 3. Nodes are tasks and Edges are precedence constraints
@@ -69,14 +70,25 @@ CPOP targets scheduling all critical tasks onto a single processor which minimiz
 17. Schedule length is the latest exit task's AFT
 
 
-
-
 # Related Work
+
+
+
 
 # Task Scheduling Algorithms
 
+
+
+
 # Experimental Results and Discussion
+
+
+
 
 # Alternate pollicies for the phases of HEFT algorithm
 
+
+
+
 # Conclusion
+
