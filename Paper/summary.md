@@ -206,16 +206,31 @@ Randomly Generated Application Graphs
 		Number of processors greater than 8 => HEFT outperforms DLS in terms of efficiency
 		HEFT is the most efficient one when performance and cost results are considered together
 	2) Fast Fourier Transform:
-		
-
-
-
+		Computation costs of all tasks which are at the same level are same
+		Communication costs between two levels are same for each link
+		Only CCR and range percentage parameters are used
+		Number of data points in FFT is another parameter
+		HEFT outperforms in terms of SLR and HEFT and DLS are same in terms of efficiency
+		DLS is highest cost in terms of running time
+	3) Molecualr Dynamics Code
+		Only CCR and range percentage parameters are used
+		SLR ranking: HEFT, DLS, CPOP, MH, LMT
+		Running time: DLS and LMT have 3 times more than others
 
 
 # Alternate pollicies for the phases of HEFT algorithm
 
-
+1. A1: Priority = upward rank+downward rank
+2. A2: Priority = upward rank+latest execution finish time of an immediate predecessor task
+3. A3: Priority = Communication cost is added to the right side
+4. Another alternative is to take immediate child tasks into account
+5. If immediate predecessors of the critical child are already scheduled then the child and the task both are scheduled on a processor that minimizes the EFT of the critical child
+6. For high CCR graphs, some benefits are observed by taking critical child into consideration
+7. B1 slightly outperforms the HEFT algorithm 3.0 <= CCR < 6.0
+8. B2 outperforms the original algorithm CCR >= 6.0
 
 
 # Conclusion
 
+Future research direction: Tradeoff investigation of quality of schedules
+Extension of HEFT for varying processor and network loads, arbitrarily connected network
