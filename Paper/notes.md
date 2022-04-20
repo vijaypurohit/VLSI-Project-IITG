@@ -3,7 +3,7 @@ Good evening, everyone. I am Vijay Purohit. We are going to present performance 
 # Introduction
 First of all we shall see what is heterogeneous computing. Diverse sets of resources interconnected with a high speed network provides a new computing platform called heterogenous computing system which can support execution of computation intensive parallel and distributed applications.
 
-General Task Scheduling Problem is to assign the tasks of the applications to suitable processors and then to order their executions.
+General Task Scheduling Problem is to assign the tasks of the applications to suitable processors and then ordering their executions.
 
 In static task scheduling, Applications are represented by DAG where the ndoes represent the application tasks and the edges represent the intertask data dependencies. Node labels show to computation cost i.e. the expected computation time and edge labels show the communication cost i.e. the expected communication time between tasks.
 
