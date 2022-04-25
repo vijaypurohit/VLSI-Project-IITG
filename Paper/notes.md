@@ -1,22 +1,99 @@
-Good evening, everyone. I am Vijay Purohit. We are going to present performance effective and low complexity task scheduling for heterogeneous computing. In this paper we are mainly focusing on two novel scheduling algorithms i.e. HEFT(Heterogeneous Earliest Finish Time) and CPOP (Critical Path on a Processor). 
+Good evening, everyone. I am Vijay Purohit/Prateekshya Priyadarshini. We are going to present performance effective and low complexity task scheduling for heterogeneous computing. In this paper, we are focusing on two novel scheduling algorithms i.e., HEFT (Heterogeneous Earliest Finish Time) and CPOP (Critical Path on a Processor).  
 
-# Introduction
-First of all we shall see what is heterogeneous computing. Diverse sets of resources interconnected with a high speed network provides a new computing platform called heterogenous computing system which can support execution of computation intensive parallel and distributed applications.
+# Introduction 
 
-General Task Scheduling Problem is to assign the tasks of the applications to suitable processors and then ordering their executions.
+First of all, we shall see what heterogeneous computing is. Diverse sets of resources interconnected with a high-speed network provide a new computing platform called heterogenous computing system which can support execution of computation intensive parallel and distributed applications. 
 
-In static task scheduling, Applications are represented by DAG where the ndoes represent the application tasks and the edges represent the intertask data dependencies. Node labels show to computation cost i.e. the expected computation time and edge labels show the communication cost i.e. the expected communication time between tasks.
+General Task Scheduling Problem is to assign the tasks of the applications to suitable processors and then order their executions. 
 
-Objective function of this problem is to assign the tasks of the applications to suitable processors and then to order their executions such that the task precendence requiremenets are satisfied and a minimum overall completion time is minimized.
+In a general form of static task scheduling problem, Applications are represented by DAG where the nodes represent the application tasks and the edges represent the inter-task data dependencies. Node labels show computation cost i.e., the expected computation time and edge labels show the inter task communication cost i.e., the expected communication time between tasks. This problem is NP complete. 
 
-There is a significant amount of research done on the systems with homogeneous processors. Some of the heuristics are mentioned here.
+In this paper, two new static scheduling algorithms are given which consider bounded number of processors that are fully connected. Motivation behind these algorithm is to deliver good quality schedules with lower costs. 
 
-Clustering Algorithms are for unbounded number of processors so not practical.
+    … 
 
-Task-Duplication Based Heuristics and Genetic Algorithms are not practical due to their high time complexity. GA also requires extensive tests to find optimal values.
+# Task Scheduling Problem 
 
-Previous researches on heterogeneous systems consider tasks only on a single level, so they may not give good results since we don't consider all ready tasks.
+It Consists of an application, a target computing environment and a performance criteria for scheduling. 
 
-In this paper two static scheduling algorithms are given which consider bounded number of processors that are fully connected. Motivation is to deliver good quality schedules with lower costs.
+An Application is represented as directed Acyclic Graph. 
 
-# Task Scheduling Provblem
+Pseudo Exit (Entry) Task 
+
+ 
+
+## read from slide 
+
+ 
+
+The objective function of this problem is to assign the tasks of the applications to suitable processors and then to order their executions such that the task precedence requirements are satisfied and a minimum overall completion time is minimized. 
+
+ 
+
+    Average execution cost 
+
+    Communication cost 
+
+    Average Communication cost 
+
+    EST 
+
+    EFT 
+
+    Makespan 
+
+    This is the classification of static task scheduling algorithms 
+
+# Related Work  
+
+There is a significant amount of research done on systems with homogeneous processors. Some of the heuristics are mentioned here. Let’s go through them. 
+
+In list scheduling algorithm, an ordered list of tasks is constructed by assigning priority for each task. Tasks are selected in order of their priorities and scheduled to a processor which minimizes a predefined cost function. 
+
+It provides a good schedule. Comparable with other categories at lower scheduling time but considered for bounded number of homogenous processors. 
+
+Clustering Algorithms are for unbounded number of processors, therefore not directly applicable. It also Requires a second phase (scheduling module) to merge the task clusters generated by the algorithm onto a bounded number of processors and to order the task execution within each processor  
+
+Task-Duplication Based Heuristics  are not practical due to their high time complexity.  
+
+Guided Random Search Techniques use random choices to guide themselves through the problem space by combining the previous results. They also have high time complexity as well as require extensive tests to find the optimal values of the control parameters. 
+
+Previous researches on heterogeneous systems consider tasks only on a single level, so they may not give good results since we don't consider all ready tasks. 
+
+At each step, DLS algorithm selects a pair of ready node and available processor that maximizes the dynamic level. Time complexity is O(v^3 q). Ranksu is the static upward rank which is calculated based on only computation costs. 
+
+In MH, computation cost is calculated by the number of instructions to be executed in the task divided by the speed of the processor. This algorithm uses static upward ranks to assign priorities. This algorithm does not have insertion based policy. Time complexity is O(v^2q^3) when contention is considered, otherwise it is O(v^2q). 
+
+In LMT, task grouping is done using the level attribute. Tie breaking is done using computation cost. Each task is assigned to its fastest available processor. Time complexity is O(v^2q^2). 
+
+# HEFT and CPOP 
+
+Now we shall see the two algorithms proposed in this paper. 
+
+These are the formulae for upward and downward ranks of each task. 
+
+Upward rank is the length of the critical path to the exit task and downward rank is that to the entry task. 
+
+Both are calculated recursively as given here. 
+
+HEFT and CPOP both have two phases that is task prioritizing phase and processor selection phase but they vary in terms of how the phases are carried on. First we shall see HEFT. Here the priority of the tasks are set to the upward rank value. We sort the tasks by decreasing order of their upward ranks which basically provides a topological ordering of the tasks. HEFT has a insertion based policy which means we can schedule a task in the earliest idle time i.e. two already scheduled tasks. The length of the idle time slot that is the difference between execution start time and finish time of two tasks that were consecutively scheduled on the same processor should be at least capable of computation cost of the task to be scheduled and scheduling on this idle time slot should preserve the precedence constraints. Time complexity of this algorithm is order of edges multiplied by processors. 
+
+We can see that for each task we are again checking for each processor. So the time complexity goes in that order. 
+
+Now comes CPOP. Here in Task prioritizing phase priority of the tasks are set to the summation of the upward and downward ranks of the task. First entry task is selected as the critical path task and then an immediate successor with highest priority value is selected as the critical path task. We use priority queue to extract the high priority task. In case of HEFT, tie breaking was random, but here we have a criteria. So, the first immediate successor with highest priority is chosen. Read the slides further. 
+
+These are the metrics we use to compare the performances.  
+
+For an unscheduled DAG, if the computation cost of each node is set with the minimum value, then the critical path will be based on the minimum computation costs, which is represented as CP_{min}. Here in SLR the denominator is the summation of the minimum computation costs of all tasks on CP_{min}. 
+
+The numerator of speedup is the sequential execution time that is computed by assigning all tasks to a single processor that minimizes the cumulative computation costs. 
+
+Read the slides. 
+
+These are the input parameters for randomly generated graphs. By taking alpha much greater than 1 we can make the graph dense and vice versa. CCR = average communication cost to average computation cost. Beta is the heterogeneity factor. High beta value indicates a significant difference in a task’s computation cost among the processors and a low beta value indicates that the task has almost equal computation cost on all the processors. For comparison purpose,  
+
+This is the result of the comparison of HEFT and CPOP to the existing algorithms. We can see that in almost all of the cases CPOP performs second best and in all cases HEFT performs best among all, even better than CPOP. 
+
+For real world existing graphs, for Gaussian elimination algorithm, in case of Average SLR values, HEFT and DLS perform the best. In case of efficiency also the case is same, but if the number of processors is greater than 8 then HEFT outperforms DLS. In case of running time, DLS runs the slowest. For FFT, in case of average SLR values, HEFT outperforms others. HEFT and DLS give the most efficient schedules. DLS runs the slowest. In case of molecular dynamics code, SLR ranking shows HEFT is best. DLS and LMT run three times slower than others. HEFT is most practical and efficient. 
+
+Priority of tasks and critical child of tasks can be set to these different values. In all cases, original HEFT outperforms. 
